@@ -1,0 +1,107 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+p {
+  text-align: center;
+  font-size: 1.2rem;
+  max-width: 70%; 
+  margin: 0 auto;  
+  padding: 0 16px; 
+  text-align: center;  
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2rem;
+  margin: 0 auto; 
+  margin-bottom: 2%; 
+  margin-top: 3%;
+  padding: 0 16px; 
+  color:#ecb131;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+#hud {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 10px;
+  font-family: sans-serif;
+  font-size: 16px;
+  border-radius: 8px;
+}
+
+#progressBar {
+  position: absolute;
+  bottom: 20px;
+  left: 10%;
+  width: 80%;
+  height: 20px;
+  background-color: #ccc;
+  border-radius: 10px;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+#progressFill {
+  height: 100%;
+  width: 0%;
+  background-color: #4CAF50;
+  transition: width 0.2s;
+}
+
+#message {
+  margin-top: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+
+#restart-btn {
+  display: none;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  padding: 16px 32px;
+  font-size: 1.2rem;
+  border-radius: 8px;
+  background: #ecb131;
+  color: black;
+  border: none;
+  cursor: pointer;
+}
+
+#button{
+    z-index: 1000;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    padding: 16px 32px;
+    font-size: 1.2rem;
+    border-radius: 8px;
+    background: #ecb131;
+    color: black;
+    border: none;
+    cursor: pointer;
+    &:hover {
+        background: #b98c18;
+    }
+}
+
+#schatztruhe {
+  display: block;
+  margin: 0 auto;
+  width: 40%; /* oder gewünschte Größe */
+}
+
+#marker-links a {
+  display: inline-block;
+  margin: 0 8px;
+  color: #ecb131;
+  font-weight: bold;
+  text-decoration: underline;
+}

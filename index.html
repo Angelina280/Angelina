@@ -1,165 +1,29 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>AR-Münzspiel – Blickbasierte Interaktion</title>
-
-    <!-- A-Frame & AR.js -->
-    <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
-    <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/1.7.2/aframe/build/aframe-ar.min.js"></script>
-
-    <style>
-      #hud {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        background: rgba(255, 255, 255, 0.9);
-        padding: 10px;
-        font-family: sans-serif;
-        font-size: 16px;
-        border-radius: 8px;
-      }
-
-      #progressBar {
-        position: absolute;
-        bottom: 20px;
-        left: 10%;
-        width: 80%;
-        height: 20px;
-        background-color: #ccc;
-        border-radius: 10px;
-        overflow: hidden;
-        visibility: hidden;
-      }
-
-      #progressFill {
-        height: 100%;
-        width: 0%;
-        background-color: #4CAF50;
-        transition: width 0.2s;
-      }
-
-      #message {
-        margin-top: 10px;
-        font-weight: bold;
-      }
-    </style>
-  </head>
-
-  <body style="margin: 0; overflow: hidden;">
-    <div id="hud">
-      <div>Zeit: <span id="timer">60</span>s</div>
-      <div>Münzen: <span id="coins">0</span>/5</div>
-      <div id="message"></div>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muenzspiel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Willkommen zum Münzspiel!</h1>
+    <p></p>
+    <p>In diesem Spiel musst du Münzen sammeln, indem du AR-Marker mit deiner Kamera scannst. Drucke dir die AR-Marker aus. Die Bilder zum Download findest du unten auf der Seite. Lasse sie dir nun von deinem Spielpartner verstecken. Jetzt bist du dran. Finde die Marker innerhalb der 60 Sekunden. Wenn du es schaffst gewinnst du! Viel Spaß!</p>
+    <button id="button">Spiel starten</button>
+        <script>
+    document.getElementById("button").addEventListener("click", function() {
+      window.location.href = "muenzspiel.html";
+    });
+    </script>
+    <img src="schatztruhe.png" alt="Schatztruhe" id="schatztruhe">
+        <!-- Marker-Link -->
+    <div id="marker-links">
+      <a href="Marker1.png" target="_blank">Marker 1</a>
+      <a href="Marker2.png" target="_blank">Marker 2</a>
+      <a href="Marker3.png" target="_blank">Marker 3</a>
+      <a href="Marker4.png" target="_blank">Marker 4</a>
+      <a href="Marker5.png" target="_blank">Marker 5</a>
     </div>
-
-    <div id="progressBar">
-      <div id="progressFill"></div>
-    </div>
-
-    <a-scene embedded arjs="sourceType: webcam;">
-      <a-entity camera></a-entity>
-
-      <!-- Marker-Logik wird dynamisch eingefügt -->
-      <script>
-        const markerIds = [1, 2, 3, 4, 5];
-        const collected = new Set();
-        let timeLeft = 60;
-        let timerInterval;
-        let focusTimeout = null;
-        let currentMarker = null;
-
-        document.addEventListener("DOMContentLoaded", () => {
-          const scene = document.querySelector("a-scene");
-
-          markerIds.forEach(id => {
-            const marker = document.createElement("a-marker");
-            marker.setAttribute("type", "pattern");
-            marker.setAttribute("url", `Marker${id}.patt`);
-            marker.setAttribute("id", `marker-${id}`);
-
-            const coin = document.createElement("a-cylinder");
-            coin.setAttribute("position", "0 0.2 0");
-            coin.setAttribute("radius", "0.1");
-            coin.setAttribute("height", "0.02");
-            coin.setAttribute("color", "#FFD700");
-            coin.setAttribute("rotation", "0 0 0");
-            coin.setAttribute("animation", "property: rotation; to: 0 360 0; loop: true; dur: 1000");
-            marker.appendChild(coin);
-
-            marker.addEventListener("markerFound", () => {
-              if (!collected.has(id) && !focusTimeout) {
-                currentMarker = id;
-                startFocusTimer(id);
-              }
-            });
-
-            marker.addEventListener("markerLost", () => {
-              if (currentMarker === id) {
-                cancelFocusTimer();
-              }
-            });
-
-            scene.appendChild(marker);
-          });
-
-          // Starte den 60-Sekunden-Timer
-          timerInterval = setInterval(() => {
-            timeLeft--;
-            document.getElementById("timer").textContent = timeLeft;
-            if (timeLeft <= 0) {
-              endGame(false);
-            }
-          }, 1000);
-        });
-
-        function startFocusTimer(id) {
-          const progressBar = document.getElementById("progressBar");
-          const progressFill = document.getElementById("progressFill");
-
-          let progress = 0;
-          progressBar.style.visibility = "visible";
-
-          focusTimeout = setInterval(() => {
-            progress += 5;
-            progressFill.style.width = `${progress}%`;
-
-            if (progress >= 100) {
-              clearInterval(focusTimeout);
-              focusTimeout = null;
-              progressBar.style.visibility = "hidden";
-              progressFill.style.width = `0%`;
-
-              collected.add(id);
-              updateHUD();
-
-              if (collected.size === 5) {
-                endGame(true);
-              }
-            }
-          }, 200); // 20 x 200ms = 4000ms (4 Sekunden)
-        }
-
-        function cancelFocusTimer() {
-          if (focusTimeout) {
-            clearInterval(focusTimeout);
-            focusTimeout = null;
-            document.getElementById("progressFill").style.width = "0%";
-            document.getElementById("progressBar").style.visibility = "hidden";
-          }
-        }
-
-        function updateHUD() {
-          document.getElementById("coins").textContent = `${collected.size}`;
-        }
-
-        function endGame(won) {
-          clearInterval(timerInterval);
-          cancelFocusTimer();
-          document.getElementById("progressBar").style.visibility = "hidden";
-          document.getElementById("message").textContent = won ? "🎉 Du hast gewonnen!" : "⏰ Zeit abgelaufen!";
-        }
-      </script>
-    </a-scene>
-  </body>
+</body>
 </html>

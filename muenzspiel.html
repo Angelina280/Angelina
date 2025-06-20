@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>AR-Münzspiel – Blickbasierte Interaktion</title>
+    <script src= "script.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- A-Frame & AR.js -->
+    <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/1.7.2/aframe/build/aframe-ar.min.js"></script>
+  </head>
+
+  <body style="margin: 0; overflow: hidden;">
+    <div id="hud">
+      <div>Zeit: <span id="timer">60</span>s</div>
+      <div>Münzen: <span id="coins">0</span>/5</div>
+      <div id="message"></div>
+    </div>
+
+        <button id="restart-btn">Nochmal spielen</button>
+
+    <div id="progressBar">
+      <div id="progressFill"></div>
+    </div>
+
+    <a-scene embedded arjs="sourceType: webcam;">
+      <a-entity camera></a-entity>
+    </a-scene>
+  </body>
+</html>
