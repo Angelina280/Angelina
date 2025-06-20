@@ -1,6 +1,6 @@
 const markerIds = [1, 2, 3, 4, 5];
 const collected = new Set();
-let timeLeft = 5;
+let timeLeft = 60;
 let timerInterval;
 let focusTimeout = null;
 let currentMarker = null;
