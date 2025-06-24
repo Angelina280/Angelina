@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     coin.setAttribute("height", "0.02");
     coin.setAttribute("color", "#FFD700");
     coin.setAttribute("rotation", "0 0 0");
-    coin.setAttribute("animation", "property: rotation; to: 0 360 0; loop: true; dur: 1000");
+    coin.setAttribute("animation", "property: rotation; to: 0 0 360; loop: true; dur: 1000");
     marker.appendChild(coin);
 
     marker.addEventListener("markerFound", () => {
