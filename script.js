@@ -94,7 +94,7 @@ function rainCoins() {
   rainContainer.id = "coin-rain";
   document.body.appendChild(rainContainer);
 
-  for (let i = 0; i < 40; i++) {
+  for (let i = 0; i < 100; i++) {
     const coin = document.createElement("div");
     coin.className = "coin";
     coin.style.left = Math.random() * 100 + "vw";
@@ -104,7 +104,7 @@ function rainCoins() {
 
   setTimeout(() => {
     rainContainer.remove();
-  }, 3000);
+  }, 4000);
 }
 
 // Passe endGame an:
