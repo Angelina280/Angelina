@@ -1,6 +1,6 @@
 const markerIds = [1, 2, 3, 4, 5];
 const collected = new Set();
-let timeLeft = 120;
+let timeLeft = 5;
 let timerInterval;
 let focusTimeout = null;
 let currentMarker = null;
@@ -89,13 +89,33 @@ function updateHUD() {
   document.getElementById("coins").textContent = `${collected.size}`;
 }
 
+function rainCoins() {
+  const rainContainer = document.createElement("div");
+  rainContainer.id = "coin-rain";
+  document.body.appendChild(rainContainer);
+
+  for (let i = 0; i < 40; i++) {
+    const coin = document.createElement("div");
+    coin.className = "coin";
+    coin.style.left = Math.random() * 100 + "vw";
+    coin.style.animationDelay = Math.random() * 1.5 + "s";
+    rainContainer.appendChild(coin);
+  }
+
+  setTimeout(() => {
+    rainContainer.remove();
+  }, 3000);
+}
+
+// Passe endGame an:
 function endGame(won) {
   clearInterval(timerInterval);
   cancelFocusTimer();
   document.getElementById("progressBar").style.visibility = "hidden";
-    document.getElementById("message").textContent = won ? "🎉 Du hast gewonnen!" : "⏰ Zeit abgelaufen!";
-    document.getElementById("restart-btn").style.display = "block"; // Button anzeigen
-  }
+  document.getElementById("message").textContent = won ? "🎉 Du hast gewonnen!" : "⏰ Zeit abgelaufen!";
+  document.getElementById("restart-btn").style.display = "block";
+  if (won) rainCoins();
+}
 
 document.getElementById("restart-btn").addEventListener("click", () => {
   location.reload(); // Seite neu laden, Spiel startet von vorn
