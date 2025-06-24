@@ -27,6 +27,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!collected.has(id) && !focusTimeout) {
         currentMarker = id;
         startFocusTimer(id);
+      document.querySelector("#sparkle").setAttribute("visible", "true");
+      setTimeout(() => {
+      document.querySelector("#sparkle").setAttribute("visible", "false");
+      }, 1000);
       }
     });
 
