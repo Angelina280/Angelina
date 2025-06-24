@@ -25,6 +25,10 @@
     </div>
 
     <a-scene embedded arjs="sourceType: webcam; markersAreaEnabled: true;">
+      <a-marker type="pattern" url="Marker1.patt">
+      <!-- Optional: Platzhalter-Objekt zur Orientierung -->
+      <a-box position='0 0.1 0' color="blue" depth="0.1" height="0.1" width="0.1" opacity="0.3"></a-box>
+    </a-marker>
       <a-entity camera></a-entity>
     </a-scene>
   </body>
