@@ -6,7 +6,7 @@ let focusTimeout = null;
 let currentMarker = null;
 
 document.addEventListener("DOMContentLoaded", () => {
-  const scene = document.querySelector("a-scene");
+  // const scene = document.querySelector("a-scene"); // Removed unused variable
 
   markerIds.forEach(id => {
     const marker = document.createElement("a-marker");
@@ -21,26 +21,32 @@ document.addEventListener("DOMContentLoaded", () => {
     coin.setAttribute("color", "#FFD700");
     marker.appendChild(coin);
 
-marker.addEventListener("markerFound", () => {
-  if (!collected.has(id) && !focusTimeout) {
-    currentMarker = id;
-    startFocusTimer(id);
-  }
-  
+    marker.addEventListener("markerFound", () => {
+      if (!collected.has(id) && !focusTimeout) {
+        currentMarker = id;
+        startFocusTimer(id);
+      }
+    });
+
     marker.addEventListener("markerLost", () => {
       if (currentMarker === id) {
         cancelFocusTimer();
       }
     });
 
-  // Starte den 60-Sekunden-Timer
-  timerInterval = setInterval(() => {
-    timeLeft--;
-    document.getElementById("timer").textContent = timeLeft;
-    if (timeLeft <= 0) {
-      endGame(false);
+    // Starte den 60-Sekunden-Timer nur einmal beim ersten Marker
+    if (!timerInterval) {
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        document.getElementById("timer").textContent = timeLeft;
+        if (timeLeft <= 0) {
+          endGame(false);
+        }
+      }, 1000);
     }
-  }, 1000);
+
+    document.querySelector("a-scene").appendChild(marker);
+  });
 });
 
 function startFocusTimer(id) {
