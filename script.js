@@ -100,3 +100,21 @@ function rainCoins() {
     rainContainer.remove();
   }, 4000);
 }
+
+                    function endGame(won) {
+  clearInterval(timerInterval);
+  cancelFocusTimer();
+  document.getElementById("progressBar").style.visibility = "hidden";
+  document.getElementById("message").textContent = won ? "🎉 Du hast gewonnen!" : "⏰ Zeit abgelaufen!";
+  document.getElementById("restart-btn").style.display = "block";
+  if (won) {
+    document.getElementById("win-sound").play();
+    rainCoins();
+  } else {
+    document.getElementById("lose-sound").play();
+  }
+}
+
+document.getElementById("restart-btn").addEventListener("click", () => {
+  location.reload(); // Seite neu laden, Spiel startet von vorn
+});
