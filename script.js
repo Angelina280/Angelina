@@ -19,15 +19,13 @@ document.addEventListener("DOMContentLoaded", () => {
     coin.setAttribute("radius", "0.1");
     coin.setAttribute("height", "0.02");
     coin.setAttribute("color", "#FFD700");
-    coin.setAttribute("rotation", "0 0 0");
-    coin.setAttribute("animation", "property: rotation; to: 0 0 360; loop: true; dur: 1000");
     marker.appendChild(coin);
     
     const sparkle = document.createElement("a-entity");
     sparkle.setAttribute("geometry", "primitive: sphere; radius: 0.05");
-    sparkle.setAttribute("material", "color: #fff; opacity: 0.7");
+    sparkle.setAttribute("material", "color: #FFD700; opacity: 0.7");
     sparkle.setAttribute("visible", "false");
-    sparkle.setAttribute("position", "0 0.3 0"); // etwas über der Münze
+    sparkle.setAttribute("position", "0 0.3 0");
     sparkle.setAttribute("id", `sparkle-${id}`);
     marker.appendChild(sparkle);
 
