@@ -121,41 +121,33 @@ document.getElementById("restart-btn").addEventListener("click", () => {
 });
 
 function showSparkle(marker) {
-  // Mehr Partikel, größere Partikel, längere Sichtbarkeit
   const numParticles = 16;
-  const duration = 2200; // 2,2 Sekunden sichtbar
+  const duration = 2200;
 
   for (let i = 0; i < numParticles; i++) {
     const particle = document.createElement("a-entity");
-    particle.setAttribute("geometry", "primitive: sphere; radius: 0.04"); // größer
-    particle.setAttribute("material", "color: #FFD700; opacity: 0.95; emissive: #fff; emissiveIntensity: 1");
+    particle.setAttribute("geometry", "primitive: sphere; radius: 0.07"); // noch größer für Test
+    particle.setAttribute("material", "color: #fff; opacity: 0.95; emissive: #fff; emissiveIntensity: 1");
     particle.setAttribute("position", "0 0.3 0");
 
-    // Richtung und Entfernung
     const angle = (2 * Math.PI * i) / numParticles;
-    const distance = 0.22 + Math.random() * 0.12; // weiter nach außen
+    const distance = 0.22 + Math.random() * 0.12;
     const x = Math.cos(angle) * distance;
     const y = 0.3 + (Math.random() - 0.5) * 0.09;
     const z = Math.sin(angle) * distance;
 
-    // Animation: von Mitte nach außen und langsam ausblenden
-    particle.setAttribute("animation__move", {
-      property: "position",
-      to: `${x} ${y} ${z}`,
-      dur: duration,
-      easing: "ease-out"
-    });
-    particle.setAttribute("animation__fade", {
-      property: "material.opacity",
-      to: 0,
-      dur: duration + 400, // noch langsamer ausblenden
-      easing: "linear"
-    });
+    // Animationen als String setzen!
+    particle.setAttribute("animation__move",
+      `property: position; to: ${x} ${y} ${z}; dur: ${duration}; easing: ease-out`
+    );
+    particle.setAttribute("animation__fade",
+      `property: material.opacity; to: 0; dur: ${duration + 800}; easing: linear`
+    );
 
     marker.appendChild(particle);
 
     setTimeout(() => {
       particle.parentNode && particle.parentNode.removeChild(particle);
-    }, duration + 800); // bleibt noch etwas länger im DOM
+    }, duration + 1200);
   }
 }
