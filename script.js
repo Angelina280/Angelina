@@ -121,25 +121,24 @@ document.getElementById("restart-btn").addEventListener("click", () => {
 });
 
 function showSparkle(marker) {
-  // Anzahl und Dauer der Glitzer-Partikel
-  const numParticles = 25;
-  const duration = 3000; // ms
+  // Mehr Partikel, größere Partikel, längere Sichtbarkeit
+  const numParticles = 16;
+  const duration = 2200; // 2,2 Sekunden sichtbar
 
   for (let i = 0; i < numParticles; i++) {
-    // Erzeuge ein kleines Glitzer-Partikel
     const particle = document.createElement("a-entity");
-    particle.setAttribute("geometry", "primitive: sphere; radius: 0.015");
-    particle.setAttribute("material", "color: #FFD700; opacity: 0.85; emissive: #FFD700; emissiveIntensity: 1");
+    particle.setAttribute("geometry", "primitive: sphere; radius: 0.04"); // größer
+    particle.setAttribute("material", "color: #FFD700; opacity: 0.95; emissive: #fff; emissiveIntensity: 1");
     particle.setAttribute("position", "0 0.3 0");
 
-    // Zufällige Richtung (Kreis um die Mitte)
+    // Richtung und Entfernung
     const angle = (2 * Math.PI * i) / numParticles;
-    const distance = 0.18 + Math.random() * 0.07; // wie weit fliegt das Partikel
+    const distance = 0.22 + Math.random() * 0.12; // weiter nach außen
     const x = Math.cos(angle) * distance;
-    const y = 0.3 + (Math.random() - 0.5) * 0.05; // kleine Höhenvariation
+    const y = 0.3 + (Math.random() - 0.5) * 0.09;
     const z = Math.sin(angle) * distance;
 
-    // Animation: von Mitte nach außen und dann unsichtbar
+    // Animation: von Mitte nach außen und langsam ausblenden
     particle.setAttribute("animation__move", {
       property: "position",
       to: `${x} ${y} ${z}`,
@@ -149,15 +148,14 @@ function showSparkle(marker) {
     particle.setAttribute("animation__fade", {
       property: "material.opacity",
       to: 0,
-      dur: duration,
+      dur: duration + 400, // noch langsamer ausblenden
       easing: "linear"
     });
 
     marker.appendChild(particle);
 
-    // Nach der Animation entfernen
     setTimeout(() => {
       particle.parentNode && particle.parentNode.removeChild(particle);
-    }, duration + 1000);
+    }, duration + 800); // bleibt noch etwas länger im DOM
   }
 }
