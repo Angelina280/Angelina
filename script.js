@@ -26,17 +26,12 @@ marker.addEventListener("markerFound", () => {
     currentMarker = id;
     startFocusTimer(id);
   }
-      showSparkle(marker);
-    });
   
     marker.addEventListener("markerLost", () => {
       if (currentMarker === id) {
         cancelFocusTimer();
       }
     });
-
-    scene.appendChild(marker);
-  });
 
   // Starte den 60-Sekunden-Timer
   timerInterval = setInterval(() => {
@@ -104,36 +99,4 @@ function rainCoins() {
   setTimeout(() => {
     rainContainer.remove();
   }, 4000);
-}
-
-function showSparkle(marker) {
-  const numParticles = 16;
-  const duration = 2200;
-
-  for (let i = 0; i < numParticles; i++) {
-    const particle = document.createElement("a-entity");
-    particle.setAttribute("geometry", "primitive: sphere; radius: 0.07"); // noch größer für Test
-    particle.setAttribute("material", "color: #fff; opacity: 0.95; emissive: #fff; emissiveIntensity: 1");
-    particle.setAttribute("position", "0 0.3 0");
-
-    const angle = (2 * Math.PI * i) / numParticles;
-    const distance = 0.22 + Math.random() * 0.12;
-    const x = Math.cos(angle) * distance;
-    const y = 0.3 + (Math.random() - 0.5) * 0.09;
-    const z = Math.sin(angle) * distance;
-
-    marker.appendChild(particle);
-    setTimeout(() => {
-      particle.setAttribute("animation__move",
-        `property: position; to: ${x} ${y} ${z}; dur: ${duration}; easing: ease-out`
-      );
-      particle.setAttribute("animation__fade",
-        `property: material.opacity; to: 0; dur: ${duration + 800}; easing: linear`
-      );
-    }, 50);
-
-    setTimeout(() => {
-      particle.parentNode && particle.parentNode.removeChild(particle);
-    }, duration + 1200);
-  }
 }
