@@ -22,17 +22,28 @@ document.addEventListener("DOMContentLoaded", () => {
     coin.setAttribute("rotation", "0 0 0");
     coin.setAttribute("animation", "property: rotation; to: 0 0 360; loop: true; dur: 1000");
     marker.appendChild(coin);
+    
+    const sparkle = document.createElement("a-entity");
+    sparkle.setAttribute("geometry", "primitive: sphere; radius: 0.05");
+    sparkle.setAttribute("material", "color: #fff; opacity: 0.7");
+    sparkle.setAttribute("visible", "false");
+    sparkle.setAttribute("position", "0 0.3 0"); // etwas über der Münze
+    sparkle.setAttribute("id", `sparkle-${id}`);
+    marker.appendChild(sparkle);
 
-    marker.addEventListener("markerFound", () => {
-      if (!collected.has(id) && !focusTimeout) {
-        currentMarker = id;
-        startFocusTimer(id);
-      document.querySelector("#sparkle").setAttribute("visible", "true");
-      setTimeout(() => {
-      document.querySelector("#sparkle").setAttribute("visible", "false");
-      }, 1000);
-      }
-    });
+marker.addEventListener("markerFound", () => {
+  if (!collected.has(id) && !focusTimeout) {
+    currentMarker = id;
+    startFocusTimer(id);
+  }
+  const sparkle = marker.querySelector(`#sparkle-${id}`);
+  if (sparkle) {
+    sparkle.setAttribute("visible", "true");
+    setTimeout(() => {
+      sparkle.setAttribute("visible", "false");
+    }, 1000);
+  }
+});
 
     marker.addEventListener("markerLost", () => {
       if (currentMarker === id) {
