@@ -20,29 +20,15 @@ document.addEventListener("DOMContentLoaded", () => {
     coin.setAttribute("height", "0.02");
     coin.setAttribute("color", "#FFD700");
     marker.appendChild(coin);
-    
-    const sparkle = document.createElement("a-entity");
-    sparkle.setAttribute("geometry", "primitive: sphere; radius: 0.05");
-    sparkle.setAttribute("material", "color: #FFD700; opacity: 0.7");
-    sparkle.setAttribute("visible", "false");
-    sparkle.setAttribute("position", "0 0.3 0");
-    sparkle.setAttribute("id", `sparkle-${id}`);
-    marker.appendChild(sparkle);
 
 marker.addEventListener("markerFound", () => {
   if (!collected.has(id) && !focusTimeout) {
     currentMarker = id;
     startFocusTimer(id);
   }
-  const sparkle = marker.querySelector(`#sparkle-${id}`);
-  if (sparkle) {
-    sparkle.setAttribute("visible", "true");
-    setTimeout(() => {
-      sparkle.setAttribute("visible", "false");
-    }, 1000);
-  }
-});
-
+      showSparkle(marker);
+    });
+  
     marker.addEventListener("markerLost", () => {
       if (currentMarker === id) {
         cancelFocusTimer();
@@ -133,3 +119,45 @@ function endGame(won) {
 document.getElementById("restart-btn").addEventListener("click", () => {
   location.reload(); // Seite neu laden, Spiel startet von vorn
 });
+
+function showSparkle(marker) {
+  // Anzahl und Dauer der Glitzer-Partikel
+  const numParticles = 25;
+  const duration = 800; // ms
+
+  for (let i = 0; i < numParticles; i++) {
+    // Erzeuge ein kleines Glitzer-Partikel
+    const particle = document.createElement("a-entity");
+    particle.setAttribute("geometry", "primitive: sphere; radius: 0.015");
+    particle.setAttribute("material", "color: #FFD700; opacity: 0.85; emissive: #FFD700; emissiveIntensity: 1");
+    particle.setAttribute("position", "0 0.3 0");
+
+    // Zufällige Richtung (Kreis um die Mitte)
+    const angle = (2 * Math.PI * i) / numParticles;
+    const distance = 0.18 + Math.random() * 0.07; // wie weit fliegt das Partikel
+    const x = Math.cos(angle) * distance;
+    const y = 0.3 + (Math.random() - 0.5) * 0.05; // kleine Höhenvariation
+    const z = Math.sin(angle) * distance;
+
+    // Animation: von Mitte nach außen und dann unsichtbar
+    particle.setAttribute("animation__move", {
+      property: "position",
+      to: `${x} ${y} ${z}`,
+      dur: duration,
+      easing: "ease-out"
+    });
+    particle.setAttribute("animation__fade", {
+      property: "material.opacity",
+      to: 0,
+      dur: duration,
+      easing: "linear"
+    });
+
+    marker.appendChild(particle);
+
+    // Nach der Animation entfernen
+    setTimeout(() => {
+      particle.parentNode && particle.parentNode.removeChild(particle);
+    }, duration + 1000);
+  }
+}
