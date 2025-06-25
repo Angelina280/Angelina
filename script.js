@@ -15,9 +15,9 @@ document.addEventListener("DOMContentLoaded", () => {
     marker.setAttribute("id", `marker-${id}`);
 
     const coin = document.createElement("a-cylinder");
-    coin.setAttribute("position", "0 0.2 0");
-    coin.setAttribute("radius", "0.1");
-    coin.setAttribute("height", "0.02");
+    coin.setAttribute("position", "0 1 0");
+    coin.setAttribute("radius", "0.5");
+    coin.setAttribute("height", "0.1");
     coin.setAttribute("color", "#FFD700");
     marker.appendChild(coin);
 
