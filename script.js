@@ -127,7 +127,7 @@ function showSparkle(marker) {
   for (let i = 0; i < numParticles; i++) {
     const particle = document.createElement("a-entity");
     particle.setAttribute("geometry", "primitive: sphere; radius: 0.07"); // noch größer für Test
-    particle.setAttribute("material", "color: #fff; opacity: 0.95; emissive: #fff; emissiveIntensity: 1");
+    particle.setAttribute("material", "color: #FFD700; opacity: 0.95; emissive: #FFD700; emissiveIntensity: 1");
     particle.setAttribute("position", "0 0.3 0");
 
     const angle = (2 * Math.PI * i) / numParticles;
@@ -136,15 +136,15 @@ function showSparkle(marker) {
     const y = 0.3 + (Math.random() - 0.5) * 0.09;
     const z = Math.sin(angle) * distance;
 
-    // Animationen als String setzen!
+    marker.appendChild(particle);
+
+    // Jetzt Animationen setzen:
     particle.setAttribute("animation__move",
       `property: position; to: ${x} ${y} ${z}; dur: ${duration}; easing: ease-out`
     );
     particle.setAttribute("animation__fade",
       `property: material.opacity; to: 0; dur: ${duration + 800}; easing: linear`
     );
-
-    marker.appendChild(particle);
 
     setTimeout(() => {
       particle.parentNode && particle.parentNode.removeChild(particle);
