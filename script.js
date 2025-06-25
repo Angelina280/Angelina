@@ -123,7 +123,7 @@ document.getElementById("restart-btn").addEventListener("click", () => {
 function showSparkle(marker) {
   // Anzahl und Dauer der Glitzer-Partikel
   const numParticles = 25;
-  const duration = 800; // ms
+  const duration = 3000; // ms
 
   for (let i = 0; i < numParticles; i++) {
     // Erzeuge ein kleines Glitzer-Partikel
